@@ -20,9 +20,10 @@ def canUnlockAll(boxes):
                 break
             elif 0 < key < length_of_boxes:
                 # key exist in boxes add to keys
-                keys.add(next_index)
+                keys.add(key)
         # check if keys had next index or any index that exists in boxes
 
+        print(keys)
         if next_index in keys:
             # contains next index
             i += 1
