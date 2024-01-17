@@ -23,7 +23,6 @@ def canUnlockAll(boxes):
                 keys.add(key)
         # check if keys had next index or any index that exists in boxes
 
-        print(keys)
         if next_index in keys:
             # contains next index
             i += 1
