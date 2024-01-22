@@ -43,7 +43,6 @@ def handle_even(chars, n):
         while True:
             res = pasteAction(copy_all=copy_all,chars=res)
             counter += 1
-            print(f"PASTE VAL: {res}")
             if len(res) == n:
                 return counter
             elif len(res) > n:
