@@ -1,95 +1,60 @@
 #!/usr/bin/python3
-""" Minimum operations"""
-
+'''Minimum Operations python3 challenge'''
 
 
 def minOperations(n):
-    """Minimum operations
-    Actions: copyAll & paste
-    copyAll -> Gets existing character(s) and save in a variable e.g copy_all
-    paste -> gets chars in copy_all and appends to original chars value
-    """
-    chars = "H"
-    action_counter = 0
-    # operatons: copyAll and paste
-    # * paste => paste = copy_all => chars = chars + paste 
+    '''calculates the fewest number of
+    operations needed to result in exactly n H
+    characters in this file.
+    Returns:
+        Integer : if n is impossible to achieve, return 0
+    '''
+    pasted_chars = 1  # how many chars in the file
+    clipboard = 0  # how many H's copied
+    counter = 0  # operations counter
 
-    # determine if n is odd or even
-    is_odd = isNOdd(n)
+    while pasted_chars < n:
+        # if did not copy anything yet
+        if clipboard == 0:
+            # copyall
+            clipboard = pasted_chars
+            # increment operations counter
+            counter += 1
 
-    if n > 1:
-        if is_odd:
-            action_counter = handle_odd(chars, n)
-            return action_counter
+        # if haven't pasted anything yet
+        if pasted_chars == 1:
+            # paste
+            pasted_chars += clipboard
+            # increment operations counter
+            counter += 1
+            # continue to next loop
+            continue
+
+        remaining = n - pasted_chars  # remaining chars to Paste
+        # check if impossible by checking if clipboard
+        # has more than needed to reach the number desired
+        # which also means num of chars in file is equal
+        # or more than in the clipboard.
+        # in both situations it's impossible to achieve n of chars
+        if remaining < clipboard:
+            return 0
+
+        # if can't be devided
+        if remaining % pasted_chars != 0:
+            # paste current clipboard
+            pasted_chars += clipboard
+            # increment operations counter
+            counter += 1
         else:
-            action_counter = handle_even(chars, n)
-            return action_counter
+            # copyall
+            clipboard = pasted_chars
+            # paste
+            pasted_chars += clipboard
+            # increment operations counter
+            counter += 2
+
+    # if got the desired result
+    if pasted_chars == n:
+        return counter
     else:
         return 0
-
-
-def handle_even(chars, n):
-    """Handle even n"""
-    counter = 0
-    # to get res for odd numbers actions required CPPCPPi
-    # where C is copy all action and P is paste action and i is the sumation 1 to infinity
-    copy_all = copyAll(chars=chars)
-    counter += 1
-    res = pasteAction(copy_all=copy_all, chars=chars)
-    counter += 1
-    copy_all = copyAll(chars=res)
-    counter += 1
-    if len(res) == 2:
-        while True:
-            res = pasteAction(copy_all=copy_all,chars=res)
-            counter += 1
-            if len(res) == n:
-                return counter
-            elif len(res) > n:
-                return 0
-
-
-
-def handle_odd(chars, n):
-    """Handle odd n"""
-    counter = 0
-    # to get res for even numbers actions required CPCPi
-    # where C is copy all action and P is paste action and i is the sumation 1 to infinity
-    copy_all = copyAll(chars=chars)
-    counter += 1
-    res = pasteAction(copy_all=copy_all, chars=chars)
-    counter += 1
-    res = pasteAction(copy_all=copy_all, chars=res)
-    counter += 1
-    copy_all = copyAll(chars=res)
-    counter += 1
-    if len(res) == 3:
-        while True:
-            res = pasteAction(copy_all=copy_all,chars=res)
-            counter += 1
-            res = pasteAction(copy_all=copy_all,chars=res)
-            counter += 1
-            if len(res) == n:
-                return counter
-            elif len(res) > n:
-                return 0
-
-
-
-def copyAll(chars):
-    """Copy All action"""
-    return chars
-
-
-def pasteAction(copy_all, chars):
-    """Paste Action"""
-    paste = copy_all
-    chars = chars + paste
-    return chars
-
-
-def isNOdd(n):
-    """Check if n is odd"""
-    if n % 2 == 1:
-        return True
-    return False
